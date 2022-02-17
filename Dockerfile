@@ -1,11 +1,9 @@
-FROM alpine:edge
+FROM alpine
 
-RUN apk add --no-cache abuild build-base sudo
 RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-
-# enable caching
-RUN mkdir /etc/apk/cache
-RUN apk update
+# enable http proxy caching
+RUN sed -i s/^https:/http:/g /etc/apk/repositories
+RUN apk add abuild build-base sudo
 
 # add abuild user
 ARG UID

@@ -8,7 +8,7 @@ run: deps abuild
 
 abuild:
 	docker build -t abuild \
-		--build-arg http_proxy=${http_proxy} \
+		--build-arg http_proxy \
 		--build-arg UID=$(shell id -u) .
 
 deps:
