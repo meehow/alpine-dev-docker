@@ -1,9 +1,11 @@
-APORTS_DIR ?= $(abspath ../aports)
+APORTSDIR ?= $(abspath ../aports)
 
 run: deps abuild
-	docker run --rm -v ${APORTS_DIR}:/aports \
-	-e DISPLAY=${DISPLAY} \
+	docker run --rm \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	-v ${APORTSDIR}:/aports \
+	-e APORTSDIR=/aports \
+	-e DISPLAY=${DISPLAY} \
 	-it abuild
 
 abuild:
@@ -12,6 +14,6 @@ abuild:
 		--build-arg UID=$(shell id -u) .
 
 deps:
-	test -e ${APORTS_DIR} || git clone https://gitlab.alpinelinux.org/alpine/aports.git ${APORTS_DIR}
+	test -e ${APORTSDIR} || git clone https://gitlab.alpinelinux.org/alpine/aports.git ${APORTSDIR}
 
-.PHONY: run abuild
+.PHONY: run abuild deps
